@@ -1,7 +1,6 @@
 import {
   getAnime,
   getAnimeDetail,
-  getAnimeSummary,
   getLatestUpdate,
   getServerList,
   getStreamResource,
@@ -67,8 +66,15 @@ app.group("/v1", (app) =>
     })
     .get("/anime/:id/:videoId", async ({ params: { id, videoId } }) => {
       const servers = await getServerList(videoId);
-      const url = await getStreamResource(servers[0]);
-      return url;
+      const links = await Promise.all(
+        servers.map(async (server) => {
+          return {
+            name: server.name,
+            url: await getStreamResource(server),
+          };
+        }),
+      );
+      return links;
     }),
 );
 
