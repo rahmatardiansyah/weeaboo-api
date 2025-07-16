@@ -1,9 +1,6 @@
 import { Elysia } from "elysia";
 
-const app = new Elysia({ prefix: "/api" }).get(
-  "/",
-  () => `Hello from bun@${Bun.version}`,
-);
+const app = new Elysia().get("/", () => `Hello from bun@${Bun.version}`);
 
 if (process.env.NODE_ENV !== "production") {
   app.listen({ port: 3000 });
