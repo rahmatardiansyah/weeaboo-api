@@ -1,10 +1,12 @@
 import {
   getAnime,
   getAnimeDetail,
+  getAnimeSummary,
   getLatestUpdate,
   getServerList,
   getStreamResource,
   getTopByCategory,
+  searchAnime,
 } from "animbus";
 import { Elysia } from "elysia";
 
@@ -25,16 +27,15 @@ app.group("/v1", (app) =>
 
       return animes;
     })
-    .get("/category", () => {
+    .get("/genre", () => {
       return {
-        message:
-          "Please provide a category ID Example: /api/v1/category/action",
+        message: "Please provide a genre ID Example: /api/v1/genre/action",
       };
     })
-    .get("/category/:id", async ({ params: { id } }) => {
+    .get("/genre/:id", async ({ params: { id } }) => {
       const animes = await getTopByCategory(id);
       if (!animes || animes.length === 0) {
-        return { message: `No anime found for category ${id}` };
+        return { message: `No anime found for genre ${id}` };
       }
       return animes;
     })
@@ -75,6 +76,14 @@ app.group("/v1", (app) =>
         }),
       );
       return links;
+    })
+    .get("/search", async ({ query: { q } }) => {
+      const animes = await searchAnime(q);
+      if (!animes || animes.length === 0) {
+        return { message: `No anime found with keyword ${q}` };
+      }
+
+      return animes;
     }),
 );
 
