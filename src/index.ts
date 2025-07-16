@@ -1,23 +1,9 @@
 import { Elysia } from "elysia";
-import { getLatestUpdate } from "animbus";
 
-const app = new Elysia({ prefix: "/api" });
-
-app.get("/", () => "Bun Online");
-
-app.group("/v1", (app) =>
-  app
-    .get("/", () => "Bun Online v1")
-    .get("/ongoing", async () => {
-      const anime = await getLatestUpdate();
-      if (!anime) {
-        return { error: "No ongoing anime found" };
-      }
-      return anime;
-    }),
+const app = new Elysia({ prefix: "/api" }).get(
+  "/",
+  () => `Hello from bun@${Bun.version}`,
 );
-
-app.listen(3000);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
