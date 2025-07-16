@@ -13,3 +13,5 @@ if (process.env.NODE_ENV !== "production") {
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
+
+export default app.handle;
