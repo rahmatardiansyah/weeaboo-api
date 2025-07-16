@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import { getLatestUpdate } from "animbus";
 
-const app = new Elysia();
+const app = new Elysia({ prefix: "/api" });
 
 app.get("/", () => "Bun Online");
 
